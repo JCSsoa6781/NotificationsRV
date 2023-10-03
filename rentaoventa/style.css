@@ -1,0 +1,402 @@
+:root {
+    --primario: #56b3b2;
+    --background-acordeon: #f2f2f2;
+    --gray: #D5D4D5;
+    --background: #2C2C2C;
+    --color: #fff; 
+    --hover: #92c9c9;
+    --background-desplegado: #fff;
+}
+.layout {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-left: 10px;
+    font-family:Georgia, 'Times New Roman', Times, serif;
+}
+.layout_dos {
+    margin-top: 35px;
+    margin-left: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    /*gap: 16px;*/
+    justify-content: space-around;
+    align-items: center;
+    font-family:Georgia, 'Times New Roman', Times, serif;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    color: #2C2C2C;
+}
+
+header {
+    background-color: var(--primario);
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+/* Acordeon con multicheck */
+
+
+.accordion-container {
+    margin: 0 auto;
+    min-width: 200px;
+    overflow: hidden;
+    max-width: 90%;
+}
+
+.main-item {
+    border-radius: 8px;
+    padding: 12px;
+    display: flex;
+    cursor: pointer;
+    background: #56b3b2;
+    color: #fff;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    transition: all ease-in-out 0.25s;
+}
+.btnAleatorioContent{
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+}
+.btnAleatorioContent>button{
+    border-radius: 8px;
+    padding: 12px;
+    cursor: pointer;
+    background: #56b3b2;
+    color: #fff;
+    border: none;
+}
+
+
+.main-item:hover {
+    background-color: var(--hover);
+    color: var(--color);
+}
+
+
+
+.main-item--open {
+    border-radius: 8px 8px 0px 0px;
+    background-color: var(--primario);
+    transition: all 200ms;
+    color: white;
+}
+
+.main-item--open:hover {
+    color: white;
+    border-radius: 8px 8px 0px 0px;
+    background-color: var(--primario);
+}
+
+.accordion-container>ul {
+    max-height: 0px;
+    background-color: var(--background);
+    list-style-type: none;
+    margin: 0px;
+    padding-left: 14px;
+    opacity: 0;
+    background-color: var(--background-acordeon);
+    visibility: hidden;
+    transition: all ease-in-out 0.2s;
+}
+
+.main-item--open+ul {
+    visibility: visible;
+    max-height: 400px;
+    opacity: 1;
+    border-radius: 0px 0px 8px 8px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.accordion-container>.listOptions>li {
+    height: 48px;
+    display: flex;
+    width: calc(100% + 30px);
+    align-items: center;
+    /*left: -10px;*/
+    position: relative;
+
+    & label:hover, input:hover{
+        cursor: pointer;
+    }
+
+    & label, input{
+        position: relative;
+        left: 30px;
+    }
+}
+
+.accordion-container>ul>li {
+    height: 48px;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    left: -10px;
+    position: relative;
+}
+
+.accordion-container>ul>li>label,input{
+    position: relative;
+    left: 10px;
+}
+.accordion-container>ul>li:hover {
+    background-color: var(--hover);
+    color: var(--color);
+    cursor: pointer;
+}
+
+.expand-icon {
+    width: 24px;
+    height: 24px;
+    margin-left: auto;
+}
+
+.main-item--open>.expand-icon {
+    transform: rotate(90deg);
+}
+
+    /* Caja de Busqueda */
+
+    
+#search-box {
+    padding: 8px;
+    border-bottom: 1px solid var(--primario);
+    border-left: none;   /* Elimina el borde izquierdo */
+    border-right: none;  /* Elimina el borde derecho */
+    border-top: none;    /* Elimina el borde superior */
+    width: 300px;
+    outline: none;
+}
+
+#results {
+    margin-top: -10px;
+    text-align: left;
+    border: 1px solid #fff;
+    padding: 10px;
+    max-width: 400px;
+    list-style-type: none;
+    padding-left: 0;
+}
+
+#results li {
+    margin-bottom: 8px;
+    cursor: pointer;
+    padding: 5px;
+    border: 1px solid #fff;
+    border-radius: 5px;
+}
+
+#results li:hover {
+    background-color: #f0f0f0;
+}
+#search-button {
+    padding: 8px 20px;
+    background-color: transparent;
+    color: var(--primario);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#search-button:hover {
+    background-color: var(--primario);
+    color: var(--color);
+}
+
+
+
+    /* CSS Formulario */
+/* Estilos generales del formulario */
+form {
+    max-width: 500px;
+    margin: 10px auto;
+    padding: 20px;
+    background-color: transparent;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+    & .imgContent{
+        text-align: center;
+        width: 100%;
+        border: none;
+        
+        & img{
+            border-radius: 5px;
+            border: 1px solid var(--primario);
+            width: 100%;
+            height: 100px;
+            object-fit: contain;
+        }
+    }
+}
+
+/* Estilos para los títulos */
+.titulo {
+    text-align: center;
+    margin-bottom: 15px;
+    border: 1px solid var(--primario);
+    border-radius: 5px;
+    padding: 5px;
+}
+
+/* Estilos para los campos de texto y textarea */
+form input[type="text"],
+input[type="file"],
+textarea {
+    width: 100%;
+    margin-left: -10px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid var(--primario); /* Utiliza el color primario */
+    border-radius: 5px;
+    font-weight: bold;
+    max-width: 93%; /* Cambiado a 100% para un ajuste uniforme */
+    outline: none;
+}
+
+/* Estilos específicos para textarea */
+textarea{
+    margin-left: 3px;
+}
+/* Estilos para el botón de enviar */
+form input[type="submit"] {
+    background-color: var(--primario);
+    color: #fff;
+    padding: 10px 75px; /* Ajustado el ancho */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    display: block; /* Para que el botón ocupe todo el ancho */
+    margin: 0 auto; /* Centrado horizontal */
+}
+
+
+input[type="submit"]:hover {
+    background-color: var(--hover);
+}
+
+
+/* Estilos generales */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    overflow: auto;
+}
+
+
+
+
+.modal-content {
+    background-color: white;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    max-width: 90%;
+}
+
+    /* Estilos para hacer el contenido más responsivo */
+@media screen and (max-width: 600px) {
+    .modal-content {
+        margin: 5% auto;
+        padding: 10px;
+        font-size: 14px;
+    }
+}
+
+    /* Responsividad de la ventana emergente */
+@media screen and (max-width: 400px) {
+    .modal-content {
+        margin: 2% auto;
+        padding: 5px;
+        font-size: 12px;
+    }
+}
+
+
+    /* Responsividad */
+@media (max-width: 480px) {
+        .layout {
+            flex-direction: column;
+            gap: 8px;
+            margin-left: 0;
+        }
+    
+        .layout_dos {
+            margin: 15px 10px 0 10px;   
+            & div{
+                width: 100%;
+                display: flex;
+            }
+        }
+    
+        .main-item {
+            padding: 8px;
+        }
+    
+        .main-item--open+ul {
+            padding: 6px;
+        }
+    
+        form {
+            margin: 8px;
+            padding: 12px;
+        }
+}
+
+
+#url {
+    border: 1px solid var(--primario); /* Establece el estilo inicial del borde */
+}
+
+
+.sectionUsersList{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+
+    & .tableListContent{
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        overflow-x: auto;
+    }
+}
+
+table {
+    margin-bottom: 20px;
+    text-align: center;
+    & th{
+        padding: 10px;
+    }
+    & button{
+        background-color: red;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        border-radius: 10px;
+        border: none;
+    }
+}
