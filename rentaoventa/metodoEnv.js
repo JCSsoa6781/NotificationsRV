@@ -131,7 +131,7 @@ miFormulario.addEventListener('submit', async (event) => {
     
     //await subirImagen();
     let textValidado = validarText(titulo,'Titulo');
-    let descriptionValidado = validarText(descripcion,'Titulo');
+    let descriptionValidado = validarText(descripcion,'Descripcón');
 
     const solicitud = {
         userIds: userIds, // llama el array que se debe de generar
