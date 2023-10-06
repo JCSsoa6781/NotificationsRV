@@ -13,7 +13,6 @@ searchBox.addEventListener('input', async () => {
 });
 
 async function searchUsersByEmail(email) {
-    console.log(email)
     try {
         //ROV API
         const response1 = await fetch(`${linkConnection}getIdAndNameRVByEmail?email=${email}`);
