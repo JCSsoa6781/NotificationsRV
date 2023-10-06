@@ -50,27 +50,27 @@
                     </div>
                     <ul class="listOptions">
                         <li>
-                            <input type="checkbox" id="users_all" name="users" value="usuarios">
+                            <input type="radio" id="users_all" name="users" value="NONE">
                             <label for="users_all">Todos</label>
                         </li>
                         <li>
-                            <input type="checkbox" id="users_kw" name="users" value="KW">
+                            <input type="radio" id="users_kw" name="users" value="KW">
                             <label for="users_kw">KW</label>
                         </li>
                         <li>
-                            <input type="checkbox" id="users_cb" name="users" value="CB">
+                            <input type="radio" id="users_cb" name="users" value="CB">
                             <label for="users_cb">CB</label>
                         </li>
                         <li>
-                            <input type="checkbox" id="users_remax" name="users" value="REMAX">
+                            <input type="radio" id="users_remax" name="users" value="REMAX">
                             <label for="users_remax">REMAX</label>
                         </li>
                         <li>
-                            <input type="checkbox" id="users_fiabci" name="users" value="FIABCI">
+                            <input type="radio" id="users_fiabci" name="users" value="FIABCI">
                             <label for="users_fiabci">FIABCI</label>
                         </li>
                         <li>
-                            <input type="checkbox" id="users_ampi" name="users" value="AMPI">
+                            <input type="radio" id="users_ampi" name="users" value="AMPI">
                             <label for="users_ampi">AMPI</label>
                         </li>
 
@@ -152,25 +152,40 @@
                 </nav>
             </div>
             <div>
-                <form id="miFormulario" method="post" enctype="multipart/form-data" onsubmit="return validarURL()">
+                <form id="miFormulario" method="post" enctype="multipart/form-data">
                     <div class="titulo">
                         <h1>Selección de recursos</h1>
                     </div>
-                    <input type="text" id="titulo" name="titulo" placeholder="Ingresa titulo" ><br><br>
+                    <input type="text" id="titulo" name="titulo" placeholder="Ingresa título" required><br><br>
 
-                    <input type="file" id="archivo" name="archivo" placeholder="cargar imagen" ><br>
+                    <input type="file" id="archivo" name="archivo" placeholder="cargar imagen"><br>
                     <div class="imgContent">
                         <img class="imgMuestra">
                     </div>
                     <br>
                     <!--<input type="button" value="subir imagen" id="subirImagenBtn"><br><br>-->
 
-                    <textarea type="text" id="descripcion" name="descripcion" placeholder="Ingresa descripcion" rows="2" cols="40" style="resize: none;"></textarea>    <br><br>
+                    <textarea type="text" id="descripcion" name="descripcion" placeholder="Ingresa descripción" rows="2" cols="40" style="resize: none;" required></textarea>    <br><br>
 
-                    <input type="text" id="url" name="url" placeholder="Ingresa URL"required ><br><br>
+                    <input type="text" id="url" name="url" placeholder="Ingresa URL" required><br><br>
 
+                    <div class="timeAndDate">
+                        <label for="waitingTime">Fecha</label>
+                        <input type="date" id="waitingTime"><br><br>
+                        <label for="startTime">Hora</label>
+                        <input type="time" id="startTime" />
+                    </div><br><br>
                     <input type="submit" value="Enviar">
                 </form>
+            </div>
+            <!-- The Modal -->
+            <div id="myModal" class="modal">
+                <!-- Modal content -->
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h1 class="mesageModal">El mensaje se ha enviado correctamente</h1>
+                    <button type="button" class="btnModal">Aceptar</button>
+                </div>
             </div>
         </section>
         <footer>    
