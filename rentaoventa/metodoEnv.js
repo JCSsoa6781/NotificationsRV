@@ -52,7 +52,7 @@ const listUsers = document.querySelectorAll('input[name="users"]');
 const listCanal = document.querySelectorAll('input[name="canal"]');
 const listPlataform = document.querySelectorAll('input[name="plataforma"]');
 
-const allUsersBTN = document.querySelector('#users_all');
+//const allUsersBTN = document.querySelector('#users_all');
 //const allPlataformBTN = document.querySelector('#plataforma_all');
 const allCanalBTN = document.querySelector('#canal_todos');
 
@@ -70,6 +70,12 @@ const allCanalBTN = document.querySelector('#canal_todos');
         selectAll(false, listPlataform);
     }
 });*/
+listCanal.forEach((element)=>{
+    element.addEventListener('click',(e)=>{
+        let btns = Array.from(listCanal).every((checkbox, index )=> index != 0 ? checkbox.checked : true);
+        listCanal[0].checked = btns;
+    });
+});
 allCanalBTN.addEventListener('click', (e)=>{
     if(e.target.checked){
         selectAll(true, listCanal);
@@ -101,7 +107,7 @@ miFormulario.addEventListener('submit', async (event) => {
 
     let notificationValue = false; // Valor predeterminado es false
 
-    if (dispositivoSeleccionado === 'ANDROID' || dispositivoSeleccionado === 'IOS' || dispositivoSeleccionado === 'NONE') {
+    if (dispositivoSeleccionado === 'ANDROID' || dispositivoSeleccionado === 'IOS' || dispositivoSeleccionado === 'NONE' || dispositivoSeleccionado === 'WEB') {
         notificationValue = true;
     }
         
@@ -134,9 +140,9 @@ miFormulario.addEventListener('submit', async (event) => {
     let descriptionValidado = validarText(descripcion,'Descripcón');
 
     const solicitud = {
-        userIds: userIds, // llama el array que se debe de generar
+        //userIds: userIds, // llama el array que se debe de generar
         marketing: {
-            userId: null, // quitalo para que sirva por lo que comento ricardo
+            //userId: null, // quitalo para que sirva por lo que comento ricardo
             title: titulo,
             image: uploadedImageUrl,// debe de tomar la variable global de la subida de imagen
             body: descripcion,
@@ -155,9 +161,13 @@ miFormulario.addEventListener('submit', async (event) => {
     if(timeStapValue){
         solicitud.scheduledDateTime = timeStapValue;
     }
+    if(userIds[0]){
+        solicitud.userIds = userIds;
+    }
 
-    //console.log(JSON.stringify(solicitud)); // Imprime solicitud en la consola para verificar que se mande correcto
-    if(urlValid && textValidado && descriptionValidado){
+    //console.log(solicitud);
+    //if(false){
+    if(urlValid){
         let modalMensaje = document.getElementById("myModal");
         let mesage = document.querySelector('.mesageModal');
         mesage.innerHTML = '';
@@ -554,9 +564,8 @@ async function fillRandom(){
         }
     });
     
-    await searchUsersByEmail('jcsc.prueba1@gmail.com', true);
-    await searchUsersByEmail('garrobograf@gmail.com', true);
-    await searchUsersByEmail('sosacorona10@gmail.com', true);
+    //await searchUsersByEmail('eleazar221241031@gmail.com', true);
+    //await searchUsersByEmail('jcsc.prueba1@gmail.com', true);
 }
 
 function fillFormRandom(){
@@ -639,7 +648,7 @@ function addFuntionDelete(){
     
     btnBorrarUserList.forEach((element)=>{
         element.addEventListener('click',(e)=>{
-            let id = e.target.parentElement.parentElement.children[1].innerText;
+            let id = e.target.parentElement.parentElement.children[2].innerText;
             let newsId = selectedUsersArray.filter(user => user.id != id);
             selectedUsersArray = [];
             selectedUsersArray = newsId;
@@ -677,3 +686,9 @@ function loadImageRandom(){
     image.src = img.fill;
     uploadedImageUrl = img.fill;
 }
+const btnVaciarlista = document.querySelector('.btnVaciarlista');
+
+btnVaciarlista.addEventListener('click',(e)=>{
+    selectedUsersArray = [];
+    removeListUsers();
+});
