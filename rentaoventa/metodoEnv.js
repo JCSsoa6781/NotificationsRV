@@ -72,8 +72,10 @@ const allCanalBTN = document.querySelector('#canal_todos');
 });*/
 listCanal.forEach((element)=>{
     element.addEventListener('click',(e)=>{
-        let btns = Array.from(listCanal).every((checkbox, index )=> index != 0 ? checkbox.checked : true);
-        listCanal[0].checked = btns;
+        if(e.target.id != 'canal_todos'){
+            let btns = Array.from(listCanal).every((checkbox, index )=> index != 0 ? checkbox.checked : true);
+            listCanal[0].checked = btns;
+        }
     });
 });
 allCanalBTN.addEventListener('click', (e)=>{
@@ -165,7 +167,7 @@ miFormulario.addEventListener('submit', async (event) => {
         solicitud.userIds = userIds;
     }
 
-    //console.log(solicitud);
+    console.log(solicitud);
     //if(false){
     if(urlValid){
         let modalMensaje = document.getElementById("myModal");
@@ -565,7 +567,7 @@ async function fillRandom(){
     });
     
     //await searchUsersByEmail('eleazar221241031@gmail.com', true);
-    //await searchUsersByEmail('jcsc.prueba1@gmail.com', true);
+    await searchUsersByEmail('jcsc.prueba1@gmail.com', true);
 }
 
 function fillFormRandom(){
