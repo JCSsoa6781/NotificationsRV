@@ -72,6 +72,7 @@ header {
 }
 .btnAleatorioContent>button{
     border-radius: 8px;
+    margin-right: 20px;
     padding: 12px;
     cursor: pointer;
     background: #56b3b2;
