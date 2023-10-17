@@ -96,6 +96,10 @@ function selectAll(checked, list){
 
 miFormulario.addEventListener('submit', async (event) => {
     event.preventDefault();
+    let modalMensaje = document.getElementById("myModal");
+    let mesage = document.querySelector('.mesageModal');
+    mesage.innerHTML = '';
+    mesage.style.color = '';
 
     const radioDispositivoSeleccionado = document.querySelector('input[type="radio"][name="dispositivo"]:checked');
     const canalCheckboxes = document.querySelectorAll('input[name="canal"]:checked');
@@ -107,11 +111,11 @@ miFormulario.addEventListener('submit', async (event) => {
     const plataformasSeleccionadas = Array.from(plataformaCheckboxes).map(checkbox => checkbox.value);
     const BrandsSeleccionadas = Array.from(brandCheckboxes).map(checkbox => checkbox.value);
 
-    let notificationValue = false; // Valor predeterminado es false
+    let notificationValue = true; // Valor predeterminado es false
 
-    if (dispositivoSeleccionado === 'ANDROID' || dispositivoSeleccionado === 'IOS' || dispositivoSeleccionado === 'NONE' || dispositivoSeleccionado === 'WEB') {
+    /*if (dispositivoSeleccionado === 'ANDROID' || dispositivoSeleccionado === 'IOS' || dispositivoSeleccionado === 'NONE' || dispositivoSeleccionado === 'WEB') {
         notificationValue = true;
-    }
+    }*/
         
     const titulo = document.getElementById('titulo').value;
     const descripcion = document.getElementById('descripcion').value;
@@ -130,16 +134,59 @@ miFormulario.addEventListener('submit', async (event) => {
     if (plataformasSeleccionadas.includes('Global MLS') || plataformasSeleccionadas.includes('Todos')) {
         apiEndpoints.push(`${linkConnection}sendMarketingGPanel`); // endpoint Global
     }
+
+    if(apiEndpoints.length == 0){
+        modalMensaje.style.display = "block";
+        mesage.innerHTML = 'Es necesario seleccionar una plataforma';
+        mesage.style.color = 'red';
+        return;
+    }
+
+    if(!dispositivoSeleccionado){
+        modalMensaje.style.display = "block";
+        mesage.innerHTML = 'Es necesario seleccionar un tipo de dispositivo';
+        mesage.style.color = 'red';
+        return;
+    }
     
     let urlValid = validarURL();
+
+    if(!urlValid){
+        modalMensaje.style.display = "block";
+        mesage.innerHTML = 'La url no es valida';
+        mesage.style.color = 'red';
+        return;
+    }else{
+        document.getElementById('url').style.borderColor = "#56b3b2";
+    }
+
     let timeStapValue = '';
     if(waitingTime && startTime){
         timeStapValue = `${waitingTime}T${startTime}:00.830Z`;
     }
     
     //await subirImagen();
-    let textValidado = validarText(titulo,'Titulo');
-    let descriptionValidado = validarText(descripcion,'Descripcón');
+    var pattern = /[`^&*()\\[\]{}\\|<>\/~]/;
+
+    if(pattern.test(titulo)){
+        modalMensaje.style.display = "block";
+        document.getElementById('titulo').style.borderColor = "red";
+        mesage.innerHTML = 'El texto contiene caracteres no permitidos';
+        mesage.style.color = 'red';
+        return;
+    }else{
+        document.getElementById('titulo').style.borderColor = "#56b3b2";
+    }
+
+    if(pattern.test(descripcion)){
+        modalMensaje.style.display = "block";
+        document.getElementById('descripcion').style.borderColor = "red";
+        mesage.innerHTML = 'El texto contiene caracteres no permitidos';
+        mesage.style.color = 'red';
+        return;
+    }else{
+        document.getElementById('descripcion').style.borderColor = "#56b3b2";
+    }
 
     const solicitud = {
         //userIds: userIds, // llama el array que se debe de generar
@@ -167,12 +214,15 @@ miFormulario.addEventListener('submit', async (event) => {
         solicitud.userIds = userIds;
     }
 
-    console.log(solicitud);
+    if(userIds.length == 0 && BrandsSeleccionadas.length == 0){
+        modalMensaje.style.display = "block";
+        mesage.innerHTML = 'Es necesario seleccionar un brand o ingresar un usuario a la lista de usuarios';
+        mesage.style.color = 'red';
+        return;
+    }
+    //console.log(solicitud);
     //if(false){
     if(urlValid){
-        let modalMensaje = document.getElementById("myModal");
-        let mesage = document.querySelector('.mesageModal');
-        mesage.innerHTML = '';
         try {
             for (const endpoint of apiEndpoints) {
                 const response = await fetch(endpoint, {
@@ -187,22 +237,23 @@ miFormulario.addEventListener('submit', async (event) => {
                 if (response.ok) {
                     modalMensaje.style.display = "block";
                     mesage.innerHTML = 'Solicitud enviada con éxito';
+                    // Reinicia el form al enviarlo
+                    let image = document.querySelector('.imgMuestra');
+                    image.src = '';
+                    uploadedImageUrl = '';
+                    resetBorderColor();
+                    miFormulario.reset();
                     //console.log('Solicitud enviada con éxito a:', endpoint);
                 } else {
                     modalMensaje.style.display = "block";
                     mesage.innerHTML = 'Error al enviar la solicitud';
+                    mesage.style.color = 'red';
                     console.error('Error al enviar la solicitud a:', endpoint);
                 }
             }
         } catch (error) {
             console.error('Error en la llamada a la API:', error);
         }
-        // Reinicia el form al enviarlo
-        let image = document.querySelector('.imgMuestra');
-        image.src = '';
-        uploadedImageUrl = '';
-        resetBorderColor();
-        miFormulario.reset();
     }
 });
 //validar la url 
@@ -213,22 +264,6 @@ function validarURL() {
   
     if (!urlPattern.test(url)) {
         document.getElementById("url").style.borderColor = "red";
-        alert("URL no válida");
-        return false; 
-    }
-  
-    return true; 
-}
-function validarText(text, nomElement) {
-    var pattern = /[`^&*()\\[\]{}\\|<>\/~]/;
-  
-    if (pattern.test(text)) {
-        if(nomElement == 'Titulo'){
-            document.getElementById('titulo').style.borderColor = "red";
-        }else{
-            document.getElementById('descripcion').style.borderColor = "red";
-        }
-        alert("Texto no valido en "+ nomElement);
         return false; 
     }
   
@@ -291,6 +326,10 @@ async function upload(files) {
 async function subirImagen() {
     const archivoInput = document.getElementById('archivo');
     const archivo = archivoInput.files[0]; // Obtener la imagen
+    let modalMensaje = document.getElementById("myModal");
+    let mesage = document.querySelector('.mesageModal');
+    mesage.innerHTML = '';
+    mesage.style.color = '';
 
     if (archivo && isImageFile(archivo)) {
         const files = [
@@ -306,13 +345,18 @@ async function subirImagen() {
         
             //console.log('Upload result:', result);
             //console.log('Uploaded Image URL:', uploadedImageUrl);
-            alert("la imagen se subio correctamente")
+            modalMensaje.style.display = "block";
+            mesage.innerHTML = 'La imagen se subio correctamente';
+            //alert("la imagen se subio correctamente")
         } catch (error) {
             console.error('Upload error:', error);
         }
     } else {
+        modalMensaje.style.display = "block";
+        mesage.innerHTML = 'El archivo seleccionado no es válido.';
+        mesage.style.color = 'red';
         console.error('El archivo seleccionado no es válido.');
-        alert("El archivo seleccionado no es válido.");
+        //alert("El archivo seleccionado no es válido.");
     }
 }
 
@@ -431,7 +475,7 @@ searchBox.addEventListener('input', () => {
         } else {
             resultsList.innerHTML = '';
         }
-    }, 1500);
+    }, 2000);
 });
 
 // Evento para detectar cambios en los checkboxes
@@ -470,6 +514,13 @@ async function searchUsersByEmail(email, random) {
         if (data.code === 200) {
             for (const key in data.item) {
                 if (data.item.hasOwnProperty(key)) {
+                    let plataform_select = document.querySelector('.plataform_select');
+                    if(plataform_select){
+                        let plataformNewSelect = plataformaRentaVentaCheckbox.checked ? 'Renta o Venta' : 'GlobalMLS'
+                        if(plataform_select.innerHTML !=  plataformNewSelect){
+                            removeListUsers();
+                        }
+                    }
                     if(random){
                         fillTable(data.item[key], email, key, plataformaRentaVentaCheckbox.checked ? 'Renta o Venta' : 'GlobalMLS');
                         selectedUsersArray.push({id:key});
@@ -567,7 +618,7 @@ async function fillRandom(){
     });
     
     //await searchUsersByEmail('eleazar221241031@gmail.com', true);
-    await searchUsersByEmail('jcsc.prueba1@gmail.com', true);
+    //await searchUsersByEmail('jcsc.prueba1@gmail.com', true);
 }
 
 function fillFormRandom(){
@@ -629,6 +680,7 @@ function fillTable(name,email, id, plataform){
     let tdId = document.createElement('td');
     tdId.innerHTML = id;
     let tdPlataform = document.createElement('td');
+    tdPlataform.classList.add('plataform_select');
     tdPlataform.innerHTML = plataform;
     let tdButton = document.createElement('td');
     let button = document.createElement('button');
