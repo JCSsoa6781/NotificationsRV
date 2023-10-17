@@ -236,7 +236,16 @@ miFormulario.addEventListener('submit', async (event) => {
     
                 if (response.ok) {
                     modalMensaje.style.display = "block";
-                    mesage.innerHTML = 'Solicitud enviada con éxito';
+                    let enviados= 'Solicitud enviada con éxito';
+                    /*let enviadosEmail = document.querySelectorAll('.email_content');
+                    for(let i = 0; i< enviadosEmail.length; i++){
+                        if(i === 0){
+                            enviadosEmail = `Solicitud enviada con éxito a \n ${enviadosEmail[i].innerHTML}\n`;
+                        }else{
+                            enviados += `${enviadosEmail[i].innerHTML}\n`;
+                        }
+                    }*/
+                    mesage.innerHTML = enviados;
                     // Reinicia el form al enviarlo
                     let image = document.querySelector('.imgMuestra');
                     image.src = '';
@@ -466,16 +475,23 @@ const resultsList = document.getElementById('results');
 let selectedUser = null;
 let countdownTimer = null;
 
-searchBox.addEventListener('input', () => {
+
+searchBox.addEventListener('blur', () => {
     //clearTimeout(countdownTimer);
-    countdownTimer = setTimeout(() => {
+    const email = searchBox.value.trim();
+    if (email !== '') {
+        searchUsersByEmail(email);
+    } else {
+        resultsList.innerHTML = '';
+    }
+    /*countdownTimer = setTimeout(() => {
         const email = searchBox.value.trim();
         if (email !== '') {
             searchUsersByEmail(email);
         } else {
             resultsList.innerHTML = '';
         }
-    }, 2000);
+    }, 4000);*/
 });
 
 // Evento para detectar cambios en los checkboxes
@@ -496,18 +512,32 @@ plataformaGlobalMLSCheckbox.addEventListener('change', () => {
 
 async function searchUsersByEmail(email, random) {
     try {
+
         let apiUrl = '';
 
         if (plataformaRentaVentaCheckbox.checked) {
             apiUrl = `${linkConnection}getIdAndNameRVByEmail?email=${email}`;
         } else if (plataformaGlobalMLSCheckbox.checked) {
             apiUrl = `${linkConnection}getIdAndNameGByEmail?email=${email}`;
-        } else {
+        } else { 
+            let modalMensaje = document.getElementById("myModal");
+            let mesage = document.querySelector('.mesageModal');
+            mesage.innerHTML = '';
+            mesage.style.color = '';
+            const radioDispositivoSeleccionado = document.querySelector('input[type="radio"][name="dispositivo"]:checked');
+            const dispositivoSeleccionado = radioDispositivoSeleccionado ? radioDispositivoSeleccionado.value : '';
+            if(!dispositivoSeleccionado){
+                modalMensaje.style.display = "block";
+                mesage.innerHTML = 'Es necesario seleccionar una plataforma';
+                mesage.style.color = 'red';
+                return;
+            }
             return; // Si ninguno está seleccionado, no hagas nada.
         }
 
         const response = await fetch(apiUrl);
         const data = await response.json();
+        console.log(data)
 
         resultsList.innerHTML = '';
 
@@ -525,19 +555,8 @@ async function searchUsersByEmail(email, random) {
                         fillTable(data.item[key], email, key, plataformaRentaVentaCheckbox.checked ? 'Renta o Venta' : 'GlobalMLS');
                         selectedUsersArray.push({id:key});
                     }else{
-                        const userLi = document.createElement('li');
-                        userLi.textContent = `${data.item[key]} -ID: ${key} - ${plataformaRentaVentaCheckbox.checked ? 'Renta o Venta' : 'GlobalMLS'}`;
-                        userLi.addEventListener('click', () => {
-                            /*selectedUser = {
-                                name: data.item[key],
-                                id: key,
-                                source: plataformaRentaVentaCheckbox.checked ? 'Renta o Venta' : 'GlobalMLS'
-                            };
-                            showAlert(selectedUser);*/
-                            fillTable(data.item[key], email, key, plataformaRentaVentaCheckbox.checked ? 'Renta o Venta' : 'GlobalMLS');
-                            selectedUsersArray.push({id:key});
-                        });
-                        resultsList.appendChild(userLi);
+                        fillTable(data.item[key], email, key, plataformaRentaVentaCheckbox.checked ? 'Renta o Venta' : 'GlobalMLS');
+                        selectedUsersArray.push({id:key});
                     }
                 }
             }
@@ -676,6 +695,7 @@ function fillTable(name,email, id, plataform){
     let tdName = document.createElement('td');
     tdName.innerHTML = name;
     let tdEmail = document.createElement('td');
+    tdEmail.classList.add('email_content');
     tdEmail.innerHTML = email;
     let tdId = document.createElement('td');
     tdId.innerHTML = id;
