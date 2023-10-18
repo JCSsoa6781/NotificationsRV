@@ -237,14 +237,17 @@ miFormulario.addEventListener('submit', async (event) => {
                 if (response.ok) {
                     modalMensaje.style.display = "block";
                     let enviados= 'Solicitud enviada con éxito';
-                    /*let enviadosEmail = document.querySelectorAll('.email_content');
-                    for(let i = 0; i< enviadosEmail.length; i++){
-                        if(i === 0){
-                            enviadosEmail = `Solicitud enviada con éxito a \n ${enviadosEmail[i].innerHTML}\n`;
-                        }else{
-                            enviados += `${enviadosEmail[i].innerHTML}\n`;
+                    let enviadosEmail = document.querySelectorAll('.email_content');
+                    console.log(enviadosEmail)
+                    if(enviadosEmail.length != 0){
+                        for(let i = 0; i< enviadosEmail.length; i++){
+                            if(i === 0){
+                                enviados = `Solicitud enviada con éxito a \n ${enviadosEmail[i].textContent}\n`;
+                            }else{
+                                enviados += `${enviadosEmail[i].textContent}\n`;
+                            }
                         }
-                    }*/
+                    }
                     mesage.innerHTML = enviados;
                     // Reinicia el form al enviarlo
                     let image = document.querySelector('.imgMuestra');
@@ -476,22 +479,22 @@ let selectedUser = null;
 let countdownTimer = null;
 
 
-searchBox.addEventListener('blur', () => {
-    //clearTimeout(countdownTimer);
-    const email = searchBox.value.trim();
+searchBox.addEventListener('input', () => {
+    clearTimeout(countdownTimer);
+    /*const email = searchBox.value.trim();
     if (email !== '') {
         searchUsersByEmail(email);
     } else {
         resultsList.innerHTML = '';
-    }
-    /*countdownTimer = setTimeout(() => {
+    }*/
+    countdownTimer = setTimeout(() => {
         const email = searchBox.value.trim();
         if (email !== '') {
             searchUsersByEmail(email);
         } else {
             resultsList.innerHTML = '';
         }
-    }, 4000);*/
+    }, 2000);
 });
 
 // Evento para detectar cambios en los checkboxes
@@ -512,6 +515,10 @@ plataformaGlobalMLSCheckbox.addEventListener('change', () => {
 
 async function searchUsersByEmail(email, random) {
     try {
+        let modalMensaje = document.getElementById("myModal");
+        let mesage = document.querySelector('.mesageModal');
+        mesage.innerHTML = '';
+        mesage.style.color = '';
 
         let apiUrl = '';
 
@@ -520,10 +527,6 @@ async function searchUsersByEmail(email, random) {
         } else if (plataformaGlobalMLSCheckbox.checked) {
             apiUrl = `${linkConnection}getIdAndNameGByEmail?email=${email}`;
         } else { 
-            let modalMensaje = document.getElementById("myModal");
-            let mesage = document.querySelector('.mesageModal');
-            mesage.innerHTML = '';
-            mesage.style.color = '';
             const radioDispositivoSeleccionado = document.querySelector('input[type="radio"][name="dispositivo"]:checked');
             const dispositivoSeleccionado = radioDispositivoSeleccionado ? radioDispositivoSeleccionado.value : '';
             if(!dispositivoSeleccionado){
@@ -537,7 +540,6 @@ async function searchUsersByEmail(email, random) {
 
         const response = await fetch(apiUrl);
         const data = await response.json();
-        console.log(data)
 
         resultsList.innerHTML = '';
 
@@ -563,9 +565,9 @@ async function searchUsersByEmail(email, random) {
         }
 
         if (data.code !== 200) {
-            const errorLi = document.createElement('li');
-            errorLi.textContent = 'No se encontraron usuarios con ese email.';
-            resultsList.appendChild(errorLi);
+            modalMensaje.style.display = "block";
+            mesage.innerHTML = 'No se encontraron usuarios con ese email.';
+            mesage.style.color = 'red';
         }
     } catch (error) {
         console.error('Error al buscar usuarios:', error);
