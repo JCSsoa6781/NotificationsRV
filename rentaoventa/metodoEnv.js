@@ -3,6 +3,7 @@ const listOptionsSelec = document.querySelectorAll('.listOptions');
 
 //const linkConnection = 'https://opi-backend.appspot.com/_ah/api/common/v1/';
 const linkConnection = 'https://inmobimapa-backend-develop.appspot.com/_ah/api/common/v1/';
+let selectedUsersArray = [];
 
 listOptionsSelec.forEach((e)=>{
     e.addEventListener('click', listBtnOptions, true);
@@ -10,6 +11,9 @@ listOptionsSelec.forEach((e)=>{
 
 function listBtnOptions(e){
     if(e.target.nodeName === 'LI'){
+        if(e.target.innerText == 'Global MLS' || e.target.innerText == 'Renta o Venta'){
+            cambioPlataform();
+        }
         e.target.children[0].checked = !e.target.children[0].checked;
         
         if(e.target.parentElement.children[0].children[0].id == "canal_todos"){
@@ -28,6 +32,16 @@ function listBtnOptions(e){
             break;
             default:
             break;
+        }
+    }
+}
+async function cambioPlataform(){
+    let enviadosEmail = document.querySelectorAll('.email_content');
+    if(enviadosEmail.length != 0){
+        removeListUsers();
+        selectedUsersArray = [];
+        for(let i = 0; i< enviadosEmail.length; i++){
+            await searchUsersByEmail(enviadosEmail[i].textContent, true);
         }
     }
 }
@@ -70,6 +84,11 @@ const allCanalBTN = document.querySelector('#canal_todos');
         selectAll(false, listPlataform);
     }
 });*/
+listPlataform.forEach((element)=>{
+    element.addEventListener('click',(e)=>{
+        cambioPlataform();
+    })
+})
 listCanal.forEach((element)=>{
     element.addEventListener('click',(e)=>{
         if(e.target.id != 'canal_todos'){
@@ -238,7 +257,6 @@ miFormulario.addEventListener('submit', async (event) => {
                     modalMensaje.style.display = "block";
                     let enviados= 'Solicitud enviada con éxito';
                     let enviadosEmail = document.querySelectorAll('.email_content');
-                    console.log(enviadosEmail)
                     if(enviadosEmail.length != 0){
                         for(let i = 0; i< enviadosEmail.length; i++){
                             if(i === 0){
@@ -472,7 +490,6 @@ function showAlert(user) {
 
 */
 
-let selectedUsersArray = [];
 const searchBox = document.getElementById('search-box');
 const resultsList = document.getElementById('results');
 let selectedUser = null;
