@@ -260,7 +260,7 @@ miFormulario.addEventListener('submit', async (event) => {
                     if(enviadosEmail.length != 0){
                         for(let i = 0; i< enviadosEmail.length; i++){
                             if(i === 0){
-                                enviados = `Solicitud enviada con éxito a \n ${enviadosEmail[i].textContent}\n`;
+                                enviados = `Solicitud enviada con éxito a \n\n ${enviadosEmail[i].textContent}\n`;
                             }else{
                                 enviados += `${enviadosEmail[i].textContent}\n`;
                             }
