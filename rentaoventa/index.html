@@ -24,137 +24,148 @@
                 Vaciar lista de usuarios
             </button>
         </div>
-        <section class="layout_dos">
-            <div class="search-container">
-                <input type="text" id="search-box" placeholder="Ingrese Correo Electronico">
-                <button id="search-button"> <i class="fa-solid fa-magnifying-glass"></i></button>
-                <ul id="results"></ul>
-            </div>
-            <div class="sectionUsersList">
-                <h1>Lista de Usuarios</h1>
-                <div class="tableListContent">
-                    <table class="tableUsersList">
-                        <tr>
-                            <th>Nombre</th>
-                            <th>Correo</th>
-                            <th>Id</th>
-                            <th>Plataforma</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </table>
+        <section class="contents">
+            <section class="layout">
+                <div>
+                    <nav class="accordion-container">
+                        <div class="main-item">
+                            <span>Brands</span><i class="fa-solid fa-circle-chevron-down"></i>
+                        </div>
+                        <ul class="listOptions">
+                            <!--li>
+                                <input type="radio" id="users_all" name="users" value="NONE">
+                                <label for="users_all">Todos</label>
+                            </li-->
+                            <li>
+                                <input type="radio" id="users_kw" name="users" value="KW">
+                                <label for="users_kw">KW</label>
+                            </li>
+                            <li>
+                                <input type="radio" id="users_cb" name="users" value="CB">
+                                <label for="users_cb">CB</label>
+                            </li>
+                            <li>
+                                <input type="radio" id="users_remax" name="users" value="REMAX">
+                                <label for="users_remax">REMAX</label>
+                            </li>
+                            <li>
+                                <input type="radio" id="users_fiabci" name="users" value="FIABCI">
+                                <label for="users_fiabci">FIABCI</label>
+                            </li>
+                            <li>
+                                <input type="radio" id="users_ampi" name="users" value="AMPI">
+                                <label for="users_ampi">AMPI</label>
+                            </li>
+
+                        </ul>
+                    </nav>
+
                 </div>
-            </div>
-        </section>
-        <section class="layout">
-            <div>
-                <nav class="accordion-container">
-                    <div class="main-item">
-                        <span>Brands</span><i class="fa-solid fa-circle-chevron-down"></i>
-                    </div>
-                    <ul class="listOptions">
-                        <!--li>
-                            <input type="radio" id="users_all" name="users" value="NONE">
-                            <label for="users_all">Todos</label>
-                        </li-->
-                        <li>
-                            <input type="radio" id="users_kw" name="users" value="KW">
-                            <label for="users_kw">KW</label>
-                        </li>
-                        <li>
-                            <input type="radio" id="users_cb" name="users" value="CB">
-                            <label for="users_cb">CB</label>
-                        </li>
-                        <li>
-                            <input type="radio" id="users_remax" name="users" value="REMAX">
-                            <label for="users_remax">REMAX</label>
-                        </li>
-                        <li>
-                            <input type="radio" id="users_fiabci" name="users" value="FIABCI">
-                            <label for="users_fiabci">FIABCI</label>
-                        </li>
-                        <li>
-                            <input type="radio" id="users_ampi" name="users" value="AMPI">
-                            <label for="users_ampi">AMPI</label>
-                        </li>
+                <div>
+                    <nav class="accordion-container">
+                        <div class="main-item">
+                            <span>Plataforma</span><i class="fa-solid fa-circle-chevron-down"></i>
+                        </div>
+                        <ul class="listOptions">
+                            <!--li>
+                                <input type="checkbox" id="plataforma_all" name="plataforma" value="plataforma">
+                                <label for="plataforma_all">Todos</label>
+                            </li-->
+                            <li>
+                                <input type="radio" id="plataforma_renta_venta" name="plataforma" value="Renta o Venta">
+                                <label for="plataforma_renta_venta">Renta o Venta</label>
+                            </li>
+                            <li>
+                                <input type="radio" id="plataforma_global_mls" name="plataforma" value="Global MLS">
+                                <label for="plataforma_global_mls">Global MLS</label>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+                <div>
+                    <nav class="accordion-container">
+                        <div class="main-item">
+                            <span>Dispositivos</span><i class="fa-solid fa-circle-chevron-down"></i>
+                        </div>
+                        <ul class="listOptions">
+                            <li>
+                                <input type="radio" id="NONE" name="dispositivo" value="NONE">
+                                <label for="NONE">Todos</label>
+                            </li>
+                            <li>
+                                <input type="radio" id="ANDROID" name="dispositivo" value="ANDROID">
+                                <label for="ANDROID">Android</label>
+                            </li>
+                            <li>
+                                <input type="radio" id="IOS" name="dispositivo" value="IOS">
+                                <label for="IOS">IOS</label>
+                            </li>
+                            <li>
+                                <input type="radio" id="WEB" name="dispositivo" value="WEB">
+                                <label for="WEB">Web</label>
+                            </li>
+                        </ul>
 
-                    </ul>
-                </nav>
+                    </nav>
+                </div>
+                <div>
+                    <nav class="accordion-container">
+                        <div class="main-item">
+                            <span>Canal</span><i class="fa-solid fa-circle-chevron-down"></i>
+                        </div>
+                        <ul class="listOptions">
+                            <li>
+                                <input type="checkbox" id="canal_todos" name="canal" value="todos">
+                                <label for="canal_todos">Todos</label>
+                            </li>
+                            <li>
+                                <input type="checkbox" id="whatsapp" name="canal" value="WhatsApp">
+                                <label for="whatsapp">WhatsApp</label>
+                            </li>
+                            <li>
+                                <input type="checkbox" id="telegram" name="canal" value="Telegram">
+                                <label for="telegram">Telegram</label>
+                            </li>
+                            <li>
+                                <input type="checkbox" id="email" name="canal" value="Email">
+                                <label for="email">Email</label>
+                            </li>
+                        </ul>
 
-            </div>
-            <div>
-                <nav class="accordion-container">
-                    <div class="main-item">
-                        <span>Plataforma</span><i class="fa-solid fa-circle-chevron-down"></i>
+                    </nav>
+                </div>
+                <section class="layout_dos">
+                    <div class="search-container">
+                        <input type="text" id="search-box" placeholder="Ingrese Correo Electronico">
+                        <button id="search-button"> <i class="fa-solid fa-magnifying-glass"></i></button>
+                        <ul id="results"></ul>
                     </div>
-                    <ul class="listOptions">
-                        <!--li>
-                            <input type="checkbox" id="plataforma_all" name="plataforma" value="plataforma">
-                            <label for="plataforma_all">Todos</label>
-                        </li-->
-                        <li>
-                            <input type="radio" id="plataforma_renta_venta" name="plataforma" value="Renta o Venta">
-                            <label for="plataforma_renta_venta">Renta o Venta</label>
-                        </li>
-                        <li>
-                            <input type="radio" id="plataforma_global_mls" name="plataforma" value="Global MLS">
-                            <label for="plataforma_global_mls">Global MLS</label>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-            <div>
-                <nav class="accordion-container">
-                    <div class="main-item">
-                        <span>Dispositivos</span><i class="fa-solid fa-circle-chevron-down"></i>
+                    <div class="sectionUsersList">
+                        <h1>Lista de Usuarios</h1>
+                        <div class="tableListContent">
+                            <table class="tableUsersList">
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Correo</th>
+                                    <th>Id</th>
+                                    <th>Plataforma</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
-                    <ul class="listOptions">
-                        <li>
-                            <input type="radio" id="NONE" name="dispositivo" value="NONE">
-                            <label for="NONE">Todos</label>
-                        </li>
-                        <li>
-                            <input type="radio" id="ANDROID" name="dispositivo" value="ANDROID">
-                            <label for="ANDROID">Android</label>
-                        </li>
-                        <li>
-                            <input type="radio" id="IOS" name="dispositivo" value="IOS">
-                            <label for="IOS">IOS</label>
-                        </li>
-                        <li>
-                            <input type="radio" id="WEB" name="dispositivo" value="WEB">
-                            <label for="WEB">Web</label>
-                        </li>
-                    </ul>
-
-                </nav>
-            </div>
-            <div>
-                <nav class="accordion-container">
-                    <div class="main-item">
-                        <span>Canal</span><i class="fa-solid fa-circle-chevron-down"></i>
+                </section>
+                <!-- The Modal -->
+                <div id="myModal" class="modal">
+                    <!-- Modal content -->
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <h1 class="mesageModal">El mensaje se ha enviado correctamente</h1>
+                        <button type="button" class="btnModal">Aceptar</button>
                     </div>
-                    <ul class="listOptions">
-                        <li>
-                            <input type="checkbox" id="canal_todos" name="canal" value="todos">
-                            <label for="canal_todos">Todos</label>
-                        </li>
-                        <li>
-                            <input type="checkbox" id="whatsapp" name="canal" value="WhatsApp">
-                            <label for="whatsapp">WhatsApp</label>
-                        </li>
-                        <li>
-                            <input type="checkbox" id="telegram" name="canal" value="Telegram">
-                            <label for="telegram">Telegram</label>
-                        </li>
-                        <li>
-                            <input type="checkbox" id="email" name="canal" value="Email">
-                            <label for="email">Email</label>
-                        </li>
-                    </ul>
-
-                </nav>
-            </div>
-            <div>
+                </div>
+            </section>
+            <div class="fomr_content">
                 <form id="miFormulario" method="post" enctype="multipart/form-data">
                     <div class="titulo">
                         <h1>Selección de recursos</h1>
@@ -180,15 +191,6 @@
                     </div><br><br>
                     <input type="submit" value="Enviar">
                 </form>
-            </div>
-            <!-- The Modal -->
-            <div id="myModal" class="modal">
-                <!-- Modal content -->
-                <div class="modal-content">
-                    <span class="close">&times;</span>
-                    <h1 class="mesageModal">El mensaje se ha enviado correctamente</h1>
-                    <button type="button" class="btnModal">Aceptar</button>
-                </div>
             </div>
         </section>
         <footer>    
