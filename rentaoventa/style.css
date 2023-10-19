@@ -16,7 +16,7 @@
 }
 .layout_dos {
     margin-top: 35px;
-    margin-left: 30px;
+    width: 100%;
     display: flex;
     flex-wrap: wrap;
     /*gap: 16px;*/
@@ -344,7 +344,9 @@ input[type="submit"]:hover {
         }
     
         .layout_dos {
-            margin: 15px 10px 0 10px;   
+            /*margin: 15px 10px 0 10px;  */
+            margin: 10px 0 0 0; 
+            width: 100%;
             & div{
                 width: 100%;
                 display: flex;
@@ -372,13 +374,13 @@ input[type="submit"]:hover {
 
 
 .sectionUsersList{
+    width: 100%;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     text-align: center;
 
     & .tableListContent{
-        display: flex;
         justify-content: center;
         width: 100%;
         height: 100%;
@@ -487,4 +489,30 @@ table {
     display: block;
     text-align: center;
     padding: 10px 0;
+}
+.contents{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+.fomr_content{
+    position: relative;
+    min-width: 378px;
+    @media (max-width: 840px) {
+        min-width: initial;
+    }
+}
+.fomr_content form{
+    position: absolute;
+    min-width: 378px;
+    @media (max-width: 840px) {
+        position: relative;
+        min-width: initial;
+    }
+}
+.layout{
+    width: calc(100% - 450px);
+    @media (max-width: 840px) {
+        width: 100%;
+    }
 }
