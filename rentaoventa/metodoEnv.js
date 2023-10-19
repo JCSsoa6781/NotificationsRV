@@ -1,5 +1,28 @@
 const miFormulario = document.getElementById('miFormulario');
 const listOptionsSelec = document.querySelectorAll('.listOptions');
+const searchBox = document.getElementById('search-box');
+const searchButton = document.getElementById('search-button');
+const resultsList = document.getElementById('results');
+
+searchBox.addEventListener('keyup',(e)=>{
+    if (e.code === 'Enter') {
+        const email = e.target.value.trim();
+        if (email !== '') {
+            searchUsersByEmail(email);
+        } else {
+            resultsList.innerHTML = '';
+        }
+    }
+});
+
+searchButton.addEventListener('click', (e)=>{
+    const email = searchBox.value.trim();
+    if (email !== '') {
+        searchUsersByEmail(email);
+    } else {
+        resultsList.innerHTML = '';
+    }
+})
 
 //const linkConnection = 'https://opi-backend.appspot.com/_ah/api/common/v1/';
 const linkConnection = 'https://inmobimapa-backend-develop.appspot.com/_ah/api/common/v1/';
@@ -42,6 +65,15 @@ async function cambioPlataform(){
         selectedUsersArray = [];
         for(let i = 0; i< enviadosEmail.length; i++){
             await searchUsersByEmail(enviadosEmail[i].textContent, true);
+        }
+    }
+    const email = searchBox.value.trim();
+    searchBox.disabled = false;
+    if(!searchBox.disabled){
+        if (email !== '' && enviadosEmail.length == 0) {
+            searchUsersByEmail(email);
+        } else {
+            resultsList.innerHTML = '';
         }
     }
 }
@@ -111,6 +143,22 @@ function selectAll(checked, list){
         list.forEach((e)=>e.checked = false);
     }
 }
+
+searchBox.addEventListener('click',(e)=>{
+    let modalMensaje = document.getElementById("myModal");
+    let mesage = document.querySelector('.mesageModal');
+    mesage.innerHTML = '';
+    mesage.style.color = '';
+    let radioDispositivoSeleccionado = '';
+    let dispositivoSeleccionado = '';
+    radioDispositivoSeleccionado = document.querySelector('input[type="radio"][name="plataforma"]:checked');
+    dispositivoSeleccionado = radioDispositivoSeleccionado ? radioDispositivoSeleccionado.value : '';
+    if(!dispositivoSeleccionado){
+        modalMensaje.style.display = "block";
+        mesage.innerHTML = 'Es necesario seleccionar una plataforma';
+        mesage.style.color = 'red';
+    }
+});
 
 
 miFormulario.addEventListener('submit', async (event) => {
@@ -489,21 +537,18 @@ function showAlert(user) {
 }
 
 */
-
-const searchBox = document.getElementById('search-box');
-const resultsList = document.getElementById('results');
 let selectedUser = null;
 let countdownTimer = null;
 
 
-searchBox.addEventListener('input', () => {
+/*searchBox.addEventListener('input', () => {
     clearTimeout(countdownTimer);
     /*const email = searchBox.value.trim();
     if (email !== '') {
         searchUsersByEmail(email);
     } else {
         resultsList.innerHTML = '';
-    }*/
+    }
     countdownTimer = setTimeout(() => {
         const email = searchBox.value.trim();
         if (email !== '') {
@@ -512,7 +557,7 @@ searchBox.addEventListener('input', () => {
             resultsList.innerHTML = '';
         }
     }, 2000);
-});
+});*/
 
 // Evento para detectar cambios en los checkboxes
 const plataformaRentaVentaCheckbox = document.getElementById('plataforma_renta_venta');
@@ -532,10 +577,6 @@ plataformaGlobalMLSCheckbox.addEventListener('change', () => {
 
 async function searchUsersByEmail(email, random) {
     try {
-        let modalMensaje = document.getElementById("myModal");
-        let mesage = document.querySelector('.mesageModal');
-        mesage.innerHTML = '';
-        mesage.style.color = '';
 
         let apiUrl = '';
 
@@ -544,14 +585,6 @@ async function searchUsersByEmail(email, random) {
         } else if (plataformaGlobalMLSCheckbox.checked) {
             apiUrl = `${linkConnection}getIdAndNameGByEmail?email=${email}`;
         } else { 
-            const radioDispositivoSeleccionado = document.querySelector('input[type="radio"][name="dispositivo"]:checked');
-            const dispositivoSeleccionado = radioDispositivoSeleccionado ? radioDispositivoSeleccionado.value : '';
-            if(!dispositivoSeleccionado){
-                modalMensaje.style.display = "block";
-                mesage.innerHTML = 'Es necesario seleccionar una plataforma';
-                mesage.style.color = 'red';
-                return;
-            }
             return; // Si ninguno está seleccionado, no hagas nada.
         }
 
