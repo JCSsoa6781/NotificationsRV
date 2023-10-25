@@ -8,7 +8,19 @@ searchBox.addEventListener('keyup',(e)=>{
     if (e.code === 'Enter') {
         const email = e.target.value.trim();
         if (email !== '') {
-            searchUsersByEmail(email);
+            let insert = true;
+            let enviadosEmail = document.querySelectorAll('.email_content');
+            if(enviadosEmail.length != 0){
+                for(let i = 0; i< enviadosEmail.length; i++){
+                    if(enviadosEmail[i].innerHTML == email){
+                        insert = false;
+                        break;
+                    }
+                }
+            }
+            if(insert){
+                searchUsersByEmail(email);
+            }
         } else {
             resultsList.innerHTML = '';
         }
@@ -18,7 +30,19 @@ searchBox.addEventListener('keyup',(e)=>{
 searchButton.addEventListener('click', (e)=>{
     const email = searchBox.value.trim();
     if (email !== '') {
-        searchUsersByEmail(email);
+        let insert = true;
+        let enviadosEmail = document.querySelectorAll('.email_content');
+        if(enviadosEmail.length != 0){
+            for(let i = 0; i< enviadosEmail.length; i++){
+                if(enviadosEmail[i].innerHTML == email){
+                    insert = false;
+                    break;
+                }
+            }
+        }
+        if(insert){
+            searchUsersByEmail(email);
+        }
     } else {
         resultsList.innerHTML = '';
     }
@@ -308,9 +332,9 @@ miFormulario.addEventListener('submit', async (event) => {
                     if(enviadosEmail.length != 0){
                         for(let i = 0; i< enviadosEmail.length; i++){
                             if(i === 0){
-                                enviados = `Solicitud enviada con éxito a \n\n ${enviadosEmail[i].textContent}\n`;
+                                enviados = `Solicitud enviada con éxito a <br><br> ${enviadosEmail[i].textContent}\n`;
                             }else{
-                                enviados += `${enviadosEmail[i].textContent}\n`;
+                                enviados += `${enviadosEmail[i].textContent}<br>`;
                             }
                         }
                     }
